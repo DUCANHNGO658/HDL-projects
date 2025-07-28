@@ -1,4 +1,4 @@
-//Designing source
+//Verilog
 `timescale 1ns / 1ps
 module ALU_8bits(
 input [7:0]A,
