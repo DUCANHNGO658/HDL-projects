@@ -1,0 +1,51 @@
+`timescale 1ns / 1ps
+module ALU_8bits_tb;
+reg [7:0] A,B;
+reg [3:0] Selection;
+wire [7:0] out;
+wire zero;
+wire overflow;
+ALU_8bits uut(
+.A(A),
+.B(B),
+.Selection(Selection),
+.out(out),
+.zero(zero),
+.overflow(overflow));
+
+initial begin
+$display("Time\tA\tB\tSelection\tout\tzero\toverflow");
+$monitor("%0dns\t%h\t%h\t%h\t%h\t%b\t%b", 
+$time, A, B, Selection, out, zero, overflow);
+
+// ADDING
+A=8'd5; B = 8'd15;Selection =4'b0000;
+#10;
+//SUBTRACTING
+A=8'd1; B =8'd 10;Selection = 4'b0001;
+#10;
+//MUITIPLICATION
+A=8'd2; B = 8'd3; Selection = 4'b0010;
+#10;
+//DIVIDING
+ A= 8'd40; B = 8'd5; Selection = 4'b0011;
+#10;
+// Test AND
+A = 8'b10101010; B = 8'b11001100; Selection = 4'b0100; 
+#10;
+//  OR
+A = 8'b10101010; B = 8'b11001100;Selection = 4'b0101; 
+#10;
+// Test XOR
+A = 8'b01010101; B = 8'b00110011; Selection = 4'b0110;
+#10;
+//NOT
+ A = 8'b11110000; B = 8'b00000000;Selection = 4'b0111;
+ //XNOR
+ A = 8'b11110000; B = 8'b00001111;Selection = 4'b1000;
+ #10;
+//DIVIDING FOR 0
+ A = 8'd50; B = 8'd0;Selection = 4'b0011;
+ #10;
+ $finish;
+ end
