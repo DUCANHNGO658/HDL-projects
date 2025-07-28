@@ -1,0 +1,33 @@
+//Designing source
+`timescale 1ns / 1ps
+module ALU_8bits(
+input [7:0]A,
+input [7:0]B,
+input [3:0] Selection,
+output reg [7:0] out,
+output zero,
+output reg overflow
+    );
+ reg [8:0] checking;   //9 bits to check overflow
+ always@(*) begin   
+overflow =0;
+case(Selection)
+4'b0000: begin
+checking=A+B;
+out = checking[7:0];
+overflow = checking[8];
+end
+4'b0001:begin
+checking = A-B;
+out = checking[7:0];
+overflow = checking [8];
+end
+4'b0010: out = A*B;//multipling
+4'b0011: out = (B!=0)?(A/B):8'b00000000;//deviding
+4'b0100: out = A&B;//and
+4'b0101: out = A|B;//or
+4'b0110: out = A^B;//xor
+4'b0111: out = ~A;//not
+4'b1000: out = ~(A^B);//xnor
+default: out =8'b00000000;
+endcase
